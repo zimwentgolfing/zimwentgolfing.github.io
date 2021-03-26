@@ -1,0 +1,83 @@
+ADDRESS, BLOCKQUOTE, BODY, CAPTION, CENTER, DD, DIR, DIV, DL, DT, FORM, H1, H2, H3, H4, H5, H6, MENU, OL, P, TD, TH, UL {
+  font: Arial, Helvetica, Tahoma, Verdana, "sans-serif"}
+
+A {cursor: hand}
+A:link {color: #060; background: transparent; text-decoration: underline}
+A:active {color: #060; background: transparent; text-decoration: none}
+A:visited {color: #360; background: transparent; text-decoration: underline}
+A:hover {color: #FFF; background: #060; text-decoration: none}
+
+ADDRESS {margin: 0em 0% 0em 0%; font: italic 1em/1 Arial, Helvetica, Tahoma, Verdana, "sans-serif"}
+BIG {font-size: 1em}
+BLOCKQUOTE {margin: 0em 0% 0em 0%; line-height: 1}
+
+BODY {margin: 0em 1% 0em 1%; font: 15px/18px Arial, Helvetica, Tahoma, Verdana, "sans-serif"; text-align: left; color: black; background: white; cursor: default}
+
+BUTTON {cursor: auto}
+CAPTION {margin: 0em 0% 0em 0%; line-height: 1}
+CODE {font-size: 15px; font-family: monospace}
+DIV {margin: 0em 0% 0em 0%; line-height: 18px}
+DD {margin: 0em 0% 0em 0%; line-height: 18px}
+DL {margin: 0em 0% 0em 0%} 
+DT {margin: 0em 0% 0em 0%; line-height: 18px}
+
+HTML {margin: 0; background: white}
+INPUT {cursor: auto}
+KBD {font: 15px monospace}
+
+
+H1 {margin: .5em 0% .5em 0%; font: bold 30px/31px Arial, Helvetica, Tahoma, Verdana, "sans-serif"}
+H2 {margin: .5em 0% .5em 0%; font: bold 24px/25px Arial, Helvetica, Tahoma, Verdana, "sans-serif"}
+H3 {margin: .5em 0% .5em 0%; font: bold 19px/20px Arial, Helvetica, Tahoma, Verdana, "sans-serif"}
+H4 {margin: .5em 0% .5em 0%; font: bold 17px/18px Arial, Helvetica, Tahoma, Verdana, "sans-serif"}
+H5 {margin: .5em 0% .5em 0%; font: bold 13px/14px Arial, Helvetica, Tahoma, Verdana, "sans-serif"}
+H6 {margin: .5em 0% .5em 0%; font: bold 10px/11px Arial, Helvetica, Tahoma, Verdana, "sans-serif"}
+HR {margin: 0em 0% 0em 0%}
+
+
+P {margin: 0em 0% 0em 0%; line-height: 18px}
+
+PRE {margin: 0em 0% 0em 0%; font: 15px monospace}
+SAMP {font: 15px monospace}
+SMALL {font-size: 15px}
+SUB {font-size: 15px}
+SUP {font-size: 15px}
+TEXTAREA {cursor: text}
+TH {font: bold 15px sans-serif}
+TT {font: 15px monospace}
+
+LI {margin: .8em 10px .7em 22px; line-height: 18px}
+OL {margin: .5em 10px .5em 22px; line-height: 18px; text-align: left; list-style-type: decimal}
+UL {margin: .5em 10px .5em 22px; line-height: 18px; text-align: left}
+
+
+/* Classes */
+P.PIndented {text-align: left; margin-left: 30px}
+P.PBoxedInGreen {border-style: outset; border-width: 2; background-color: #CCFFCC}
+H1.H1GreenLongBckgrd {color: #FFF; background-color: #060; line-height: 38px}
+H2.H2GreenLongBckgrd {color: #FFF; background-color: #060; line-height: 32px}
+H3.H3GreenLongBckgrd {color: #FFF; background-color: #060; line-height: 28px}
+H4.H4GreenLongBckgrd {color: #FFF; background-color: #060; line-height: 24px}
+H1.H1LightGreenLongBckgrd {background-color: #CFC}
+H2.H2LightGreenLongBckgrd {background-color: #CFC}
+H3.H3LightGreenLongBckgrd {background-color: #CFC}
+
+UL.BulletSolid {list-style-type:disc}
+UL.BulletHollow {list-style-type:circle}
+UL.BulletSquare {list-style-type:square}
+UL.BulletXArrow {list-style-image:url('../images/bulletarrow.GIF')}
+UL.BulletXBox {list-style-image:url('../images/bulletbox.GIF')}
+UL.BulletXStar {list-style-image:url('../images/bulletstar.GIF')}
+UL.BulletXGreenBox {list-style-image:url('../images/bulletgreenbox.GIF')}
+UL.BulletXGreenArrow {list-style-image:url('../images/bulletgreenarrow.gif')}
+
+span.HighLightDarkGreen {color: #FFF; background-color: #060}
+span.HighLightGreen {background-color: #CFC}
+span.HighLightYellow {background-color: #FF0}
+
+.GrayPastelBackground {background-color: #C5C5C5;}
+.PinkPastelBackground {background-color: #F4EAE7;}
+.GreenPastelBackground {background-color: #E7F3E7;}
+.BluePastelBackground {background-color: #DFEBF7;}
+.PurplePastelBackground {background-color: #EFF3FF;}
+.GoldPastelBackground {background-color: #FBEFC6;}
