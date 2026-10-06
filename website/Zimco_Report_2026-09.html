@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zimco Family Financial Report — Q3 2026</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --surface2: #f0efe9;
+    --border: #e0dfd7;
+    --text: #1a1a18;
+    --text2: #5a5955;
+    --text3: #9a9890;
+    --blue: #1a5fa8;
+    --blue-light: #e8f0fa;
+    --green: #1a7a52;
+    --green-light: #e6f4ed;
+    --red: #c0392b;
+    --amber: #b5750a;
+    --accent: #1a5fa8;
+    --radius: 10px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--blue);
+    color: #fff;
+    padding: 2rem 2.5rem;
+  }
+  .header-inner { max-width: 960px; margin: 0 auto; }
+  .header h1 { font-size: 22px; font-weight: 600; letter-spacing: -.3px; }
+  .header p { font-size: 13px; opacity: .75; margin-top: 4px; }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--text3);
+    margin: 2rem 0 .75rem;
+    padding-bottom: .4rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── KPI CARDS ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: .5rem; }
+  .kpi {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1rem 1.1rem;
+  }
+  .kpi .lbl { font-size: 11px; color: var(--text3); margin-bottom: 5px; }
+  .kpi .val { font-size: 24px; font-weight: 600; color: var(--blue); line-height: 1.1; }
+  .kpi .sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+  /* ── CHART CARDS ── */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .card-title { font-size: 13px; font-weight: 600; color: var(--text2); margin-bottom: 1rem; }
+
+  /* ── BULLETS ── */
+  .bullets { list-style: none; margin-top: .75rem; }
+  .bullets li {
+    font-size: 13px; color: var(--text2); padding: 5px 0 5px 14px;
+    border-bottom: 1px solid var(--border); position: relative; line-height: 1.5;
+  }
+  .bullets li:last-child { border-bottom: none; }
+  .bullets li::before { content: "•"; position: absolute; left: 0; color: var(--text3); }
+  .bullets li strong { color: var(--text); font-weight: 600; }
+
+  /* ── TWO-COL ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+
+  /* ── LEGEND ── */
+  .legend { display: flex; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+  .legend span { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text2); }
+  .legend b { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
+  /* ── NOTE ── */
+  .note { font-size: 11px; color: var(--text3); margin-top: 10px; line-height: 1.5; }
+
+  /* ── OWNER TABLE ── */
+  .owner-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .owner-table th { text-align: left; color: var(--text3); font-weight: 500; font-size: 11px;
+    padding: 0 0 8px; border-bottom: 1px solid var(--border); }
+  .owner-table th:not(:first-child) { text-align: right; }
+  .owner-table td { padding: 8px 0; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  .owner-table td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+  .owner-table tr:last-child td { border-bottom: none; font-weight: 600; padding-top: 10px; }
+  .owner-sub { display: block; font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .owner-sub.credit { color: var(--green); }
+  .pct-badge {
+    display: inline-block; font-size: 10px; color: var(--blue);
+    background: var(--blue-light); border-radius: 4px; padding: 1px 5px; margin-left: 4px;
+  }
+
+  /* ── CLICKABLE BARS ── */
+  /* ── Family updates ── */
+  .notes-card { background: var(--surface); border: 1px solid var(--border);
+    border-left: 3px solid var(--green); border-radius: var(--radius);
+    padding: 1.1rem 1.25rem; margin-bottom: 1.25rem; }
+  .notes-card ul { margin: 0; padding-left: 1.1rem; }
+  .notes-card li { font-size: 14px; color: var(--text); line-height: 1.5; margin: 4px 0; }
+
+  /* ── Since-last-run activity summary ── */
+  .period-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    border-radius: var(--radius); padding: 1.1rem 1.25rem; margin-bottom: 1.5rem;
+  }
+  .period-head { font-size: 11px; text-transform: uppercase; letter-spacing: .5px;
+                 color: var(--text3); margin-bottom: 6px; }
+  .period-headline { font-size: 15px; font-weight: 600; color: var(--text);
+                     line-height: 1.45; margin-bottom: 4px; }
+  .period-net { font-size: 12px; color: var(--text3); margin-bottom: 12px; }
+  .period-net b { font-variant-numeric: tabular-nums; }
+  .period-net .up { color: var(--green); }
+  .period-net .down { color: var(--red); }
+  .period-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 4px; }
+  .period-table th { text-align: left; color: var(--text3); font-weight: 500; font-size: 11px;
+                     padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .period-table th:last-child { text-align: right; }
+  .period-table td { padding: 7px 0; border-bottom: 1px solid var(--border);
+                     color: var(--text); vertical-align: top; }
+  .period-table td:last-child { text-align: right; font-variant-numeric: tabular-nums;
+                                white-space: nowrap; padding-left: 12px; }
+  .period-table tr:last-child td { border-bottom: none; }
+  .period-table .amt-in  { color: var(--green); }
+  .period-table .amt-out { color: var(--red); }
+  /* Needs the table prefix: '.period-table td' is more specific than a bare
+     class, so a plain '.period-date' rule loses its padding to it. */
+  .period-table td.period-date { color: var(--text3); font-size: 12px;
+                 white-space: nowrap; width: 1%;
+                 padding: 7px 16px 7px 0; }
+  .period-desc { font-size: 11px; color: var(--text3); display: block; margin-top: 2px; }
+  .period-group { font-size: 11px; text-transform: uppercase; letter-spacing: .4px;
+                  color: var(--text3); padding-top: 14px !important; font-weight: 600; }
+  .period-total td { font-weight: 600; border-top: 1px solid var(--border);
+                     border-bottom: none !important; padding-top: 10px !important; }
+  .badge-new { display: inline-block; font-size: 10px; font-weight: 600;
+               background: var(--green-light); color: var(--green);
+               padding: 1px 6px; border-radius: 3px; margin-left: 6px;
+               vertical-align: middle; }
+  @media (max-width: 640px) {
+    .period-card { padding: 1rem; }
+    .period-headline { font-size: 14px; }
+  }
+
+  /* ── Flagged items ── */
+  .flag-list { margin: 4px 0 2px; }
+  .flag { display: flex; gap: 10px; align-items: flex-start;
+          padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .flag:last-child { border-bottom: none; }
+  .flag-tag { flex: 0 0 auto; font-size: 10px; font-weight: 600;
+              padding: 2px 7px; border-radius: 3px; white-space: nowrap;
+              margin-top: 1px; }
+  .flag-warn { background: #fdf0e3; color: var(--amber); }
+  .flag-new  { background: var(--green-light); color: var(--green); }
+  .flag-per  { background: var(--blue-light); color: var(--blue); }
+  .flag-big  { background: #fbeae8; color: var(--red); }
+  .flag-body { flex: 1 1 auto; min-width: 0; }
+  .flag-name { font-size: 13px; font-weight: 600; color: var(--text); }
+  .flag-amt { font-size: 13px; font-variant-numeric: tabular-nums;
+              float: right; padding-left: 10px; }
+  .flag-amt.amt-in  { color: var(--green); }
+  .flag-amt.amt-out { color: var(--red); }
+  .routine-line { font-size: 12px; color: var(--text3); margin-top: 10px;
+                  padding-top: 10px; border-top: 1px solid var(--border); }
+  .period-toggle { font-size: 12px; color: var(--blue); cursor: pointer;
+                   margin-top: 10px; display: inline-block; user-select: none; }
+  .period-toggle:hover { text-decoration: underline; }
+
+  /* ── Year to date ── */
+  .ytd-grid { display: grid; grid-template-columns: repeat(4, 1fr);
+              gap: 12px; margin-bottom: .75rem; }
+  .ytd-grid .val.pos { color: var(--green); }
+  .ytd-grid .val.neg { color: var(--red); }
+  .ytd-note { font-size: 12px; color: var(--text3); margin: -.25rem 0 .75rem;
+              line-height: 1.5; }
+  .ytd-context { font-size: 12px; color: var(--text2); background: var(--blue-light);
+                 border-radius: var(--radius); padding: 10px 12px;
+                 margin-bottom: 1rem; line-height: 1.5; }
+  .d-up   { color: var(--red); font-variant-numeric: tabular-nums; }
+  .d-down { color: var(--green); font-variant-numeric: tabular-nums; }
+  .d-flat { color: var(--text3); }
+  @media (max-width: 640px) {
+    .ytd-grid { grid-template-columns: repeat(2, 1fr); }
+    .flag-amt { float: none; display: block; padding-left: 0; margin-top: 2px; }
+  }
+
+  .clickable-hint { font-size: 11px; color: var(--text3); margin-bottom: 8px; }
+  .clickable-hint span { color: var(--blue); }
+
+  /* ── DRILL-DOWN PANEL ── */
+  .drill-panel {
+    display: none; margin-top: 12px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .drill-panel.open { display: block; }
+  .drill-header {
+    background: var(--blue); color: #fff;
+    padding: .6rem 1rem; font-size: 13px; font-weight: 600;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .drill-close {
+    background: none; border: none; color: #fff; font-size: 18px;
+    cursor: pointer; line-height: 1; padding: 0 2px;
+  }
+  .drill-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .drill-table th {
+    text-align: left; background: var(--surface2); color: var(--text3);
+    font-weight: 500; padding: 6px 10px; border-bottom: 1px solid var(--border);
+    font-size: 11px;
+  }
+  .drill-table th:last-child { text-align: right; }
+  .drill-table td { padding: 6px 10px; border-bottom: 1px solid var(--border); color: var(--text); }
+  .drill-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
+  .drill-table tr:last-child td { border-bottom: none; }
+  .drill-total { background: var(--surface2); font-weight: 600; }
+  .drill-table tr:hover td { background: var(--blue-light); }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center; font-size: 11px; color: var(--text3);
+    padding: 2rem 1rem; border-top: 1px solid var(--border); margin-top: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .header { padding: 1.5rem 1.25rem; }
+    .container { padding: 1.25rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <h1>Zimco Family Financial Report</h1>
+    <p>Q3 2026 Report &nbsp;·&nbsp; Balances as of October 6, 2026 &nbsp;·&nbsp; Prepared by John Zimmerman, Treasurer</p>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- FAMILY UPDATES (rendered from DATA.notes; hidden if none) -->
+  <div id="reportNotes"></div>
+
+  <!-- ACTIVITY SINCE LAST RUN (rendered from DATA.period; hidden if absent) -->
+  <div id="periodSummary"></div>
+
+  <!-- PART 1: BALANCES -->
+  <div class="section-label">Account balances — as of October 6, 2026</div>
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="lbl">Checking x1421</div>
+      <div class="val">$2,830</div>
+      <div class="sub">Zimco Operating Account</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">Savings x9762</div>
+      <div class="val">$18,464</div>
+      <div class="sub">Zimco Savings Account</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">Total on hand</div>
+      <div class="val">$21,294</div>
+      <div class="sub">Checking + savings</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">Interest earned since 2023</div>
+      <div class="val">$2,247</div>
+      <div class="sub">Checking + savings combined</div>
+    </div>
+  </div>
+
+  <!-- YEAR TO DATE (rendered from DATA.ytd) -->
+  <div id="ytdSection"></div>
+
+  <!-- PART 1: ANNUAL CHART -->
+  <div class="section-label" style="margin-top:1.75rem">Income vs. expenses by year</div>
+  <div class="card">
+    <div class="legend">
+      <span style="margin-right:4px;color:#5a5955;font-size:12px">Income:</span>
+      <span><b style="background:#1a5fa8"></b> Owner Payments</span>
+      <span><b style="background:#1a7a52"></b> Rental Income</span>
+      <span><b style="background:#b5750a"></b> Interest</span>
+      <span style="margin-left:8px;padding-left:8px;border-left:1px solid #e0dfd7"><b style="background:#c0392b"></b> Expenses</span>
+    </div>
+    <div style="position:relative;width:100%;height:260px">
+      <canvas id="annualChart" role="img" aria-label="Annual income and expenses 2023 to 2026">Annual income and expenses chart.</canvas>
+    </div>
+    <ul class="bullets" style="margin-top:1rem">
+      <li><strong>Jun–Dec 2023:</strong> Only 7 months of activity — accounts opened in June. Treasurer duties transferred in July 2023. Main expense was $5,000 legal expense for dock.</li>
+      <li><strong>2024:</strong> Strong year with tenant David Wilcox in place for part of the year. Expenses well controlled. Net positive $4,918.</li>
+      <li><strong>2025:</strong> No tenant for most of the year until Alice Richard arrived in October. Expenses continued, pulling the year slightly negative.</li>
+      <li><strong>Jan–Jun 2026:</strong> Alice Richard's tenancy ended in March. Two large one-time costs hit early — a sewer pipe replacement ($5,800) and the Jan. 2026 property tax ($6,322) — pushing expenses well above income for this period.</li>
+    </ul>
+    <div class="note">Security deposits excluded (pass-through funds). Alice Richard's $10,000 lump payment allocated as $2,000/month Oct 2025–Feb 2026. Owner capital deposits excluded from income.</div>
+  </div>
+
+  <!-- PART 2: EXPENSES -->
+  <div class="section-label">Where the money goes — all time expenses</div>
+  <div class="card">
+    <p class="clickable-hint">Click any bar to see the full transaction detail for that category.</p>
+    <div style="position:relative;width:100%;height:420px">
+      <canvas id="expChart" role="img" aria-label="Expense breakdown by category">Expense breakdown chart.</canvas>
+    </div>
+    <div class="note" id="expTotal"></div>
+    <div class="drill-panel" id="expDrill">
+      <div class="drill-header">
+        <span id="expDrillTitle">Detail</span>
+        <button class="drill-close" onclick="closeDrill('exp')">×</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="drill-table">
+          <thead><tr><th>Date</th><th>Description</th><th>Memo</th><th>Amount</th></tr></thead>
+          <tbody id="expDrillBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART 2: INCOME + OWNERS -->
+  <div class="section-label">Where the money comes from &amp; owner payments</div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Income sources — all time</div>
+      <p class="clickable-hint" style="margin-bottom:8px">Click any segment to see detail.</p>
+      <div style="position:relative;width:100%;height:200px">
+        <canvas id="incChart" role="img" aria-label="Income breakdown by source">Income breakdown chart.</canvas>
+      </div>
+      <div class="note" id="incTotal"></div>
+      <div class="drill-panel" id="incDrill">
+        <div class="drill-header">
+          <span id="incDrillTitle">Detail</span>
+          <button class="drill-close" onclick="closeDrill('inc')">×</button>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="drill-table">
+            <thead><tr><th>Date</th><th>Description</th><th>Memo</th><th>Amount</th></tr></thead>
+            <tbody id="incDrillBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Owner payments paid — since Jun 2023, as of October 2026</div>
+      <table class="owner-table">
+        <thead>
+          <tr><th>Owner</th><th>Share</th><th>Total paid</th></tr>
+        </thead>
+        <tbody id="ownerRows">
+          <!-- rendered from DATA.owners -->
+        </tbody>
+      </table>
+      <div class="note">Monthly dues: $300/25% share when no tenant, $200/25% share when tenant in place.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Zimco Family Financials &nbsp;·&nbsp; Prepared October 6, 2026 &nbsp;·&nbsp; All figures verified against Firstib checking and savings account statements.
+</div>
+
+<script>
+// ── POLYFILLS ─────────────────────────────────────────────────────────────────
+// roundRect not available in Safari < 15.4 (common on older iPads)
+if (typeof CanvasRenderingContext2D !== 'undefined' &&
+    !CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+    r = Math.min(r, w/2, h/2);
+    this.moveTo(x + r, y);
+    this.lineTo(x + w - r, y);
+    this.quadraticCurveTo(x + w, y, x + w, y + r);
+    this.lineTo(x + w, y + h - r);
+    this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    this.lineTo(x + r, y + h);
+    this.quadraticCurveTo(x, y + h, x, y + h - r);
+    this.lineTo(x, y + r);
+    this.quadraticCurveTo(x, y, x + r, y);
+    this.closePath();
+  };
+}
+
+const DATA ={"checking_bal":2830.02,"savings_bal":18464.26,"total_bal":21294.28,"interest":2247.03,"exp_summary":{"Property Tax":36671.2,"Heating Oil":5965.92,"Repairs":5800.0,"Legal Fees":5055.0,"Property Insurance":4624.0,"Treasurer Fees":3700.0,"Maintenance":3354.11,"Electricity":2343.87,"Tenant Management":2180.0,"Garbage Removal":1897.93,"Sewer":1273.88,"Water":1223.91,"Internet Access":827.68,"Income Tax":618.0,"Other":396.0},"exp_detail":{"Electricity":[{"date":"07/28/2023","description":"Eversource Energy","memo":"- WEB_PAY","amount":40.91},{"date":"08/29/2023","description":"Eversource Energy","memo":"- WEB_PAY","amount":96.63},{"date":"10/03/2023","description":"Eversource Energy","memo":"- WEB_PAY","amount":45.7},{"date":"10/30/2023","description":"Eversource Energy","memo":"- WEB_PAY","amount":33.78},{"date":"11/27/2023","description":"Eversource Energy","memo":"- WEB_PAY","amount":119.66},{"date":"12/26/2023","description":"Eversource Energy","memo":"- WEB_PAY","amount":105.81},{"date":"01/30/2024","description":"Eversource Energy","memo":"- WEB_PAY","amount":163.95},{"date":"02/27/2024","description":"Eversource Energy","memo":"- WEB_PAY","amount":75.65},{"date":"03/29/2024","description":"Eversource Energy","memo":"- WEB_PAY","amount":31.8},{"date":"04/30/2024","description":"Eversource Energy","memo":"- WEB_PAY","amount":30.71},{"date":"05/28/2024","description":"Eversource Energy","memo":"- WEB_PAY","amount":22.94},{"date":"06/28/2024","description":"Eversource Energy","memo":"- WEB_PAY","amount":29.32},{"date":"07/30/2024","description":"Eversource Energy","memo":"- WEB_PAY","amount":37.83},{"date":"09/03/2024","description":"Eversource Energy","memo":"- WEB_PAY","amount":100.14},{"date":"10/01/2024","description":"Eversource Energy","memo":"- WEB_PAY","amount":51.79},{"date":"10/29/2024","description":"Eversource Energy","memo":"- WEB_PAY","amount":77.5},{"date":"11/26/2024","description":"Eversource Energy","memo":"- WEB_PAY","amount":90.96},{"date":"12/30/2024","description":"Eversource Energy","memo":"- WEB_PAY","amount":101.48},{"date":"02/03/2025","description":"Eversource Energy","memo":"- WEB_PAY","amount":52.98},{"date":"02/28/2025","description":"Eversource Energy","memo":"- WEB_PAY","amount":42.97},{"date":"03/31/2025","description":"Eversource Energy","memo":"- WEB_PAY","amount":41.4},{"date":"04/29/2025","description":"Eversource Energy","memo":"- WEB_PAY","amount":30.39},{"date":"05/30/2025","description":"Eversource Energy","memo":"- WEB_PAY","amount":28.94},{"date":"06/30/2025","description":"Eversource Energy","memo":"- WEB_PAY","amount":26.45},{"date":"07/29/2025","description":"Eversource Energy","memo":"- WEB_PAY","amount":35.21},{"date":"09/02/2025","description":"Eversource Energy","memo":"- WEB_PAY","amount":73.08},{"date":"09/30/2025","description":"Eversource Energy","memo":"- WEB_PAY","amount":39.74},{"date":"10/28/2025","description":"Eversource Energy","memo":"- WEB_PAY","amount":32.65},{"date":"11/25/2025","description":"Eversource Energy","memo":"- WEB_PAY","amount":61.69},{"date":"12/30/2025","description":"Eversource Energy","memo":"- WEB_PAY","amount":82.11},{"date":"01/30/2026","description":"Eversource Energy","memo":"- WEB_PAY","amount":99.83},{"date":"03/02/2026","description":"Eversource Energy","memo":"- WEB_PAY","amount":101.75},{"date":"03/31/2026","description":"Eversource Energy","memo":"- WEB_PAY","amount":119.76},{"date":"04/28/2026","description":"Eversource Energy","memo":"- WEB_PAY","amount":35.77},{"date":"05/29/2026","description":"Eversource Energy","memo":"- WEB_PAY","amount":29.0},{"date":"06/30/2026","description":"Eversource Energy","memo":"- WEB_PAY","amount":24.66},{"date":"08/03/2026","description":"Eversource Energy","memo":"- WEB_PAY","amount":62.96},{"date":"09/01/2026","description":"Eversource Energy","memo":"- WEB_PAY","amount":34.4},{"date":"09/29/2026","description":"Eversource Energy","memo":"- WEB_PAY","amount":31.57}],"Garbage Removal":[{"date":"10/10/2023","description":"USA Waste & Recycling","memo":"Quarter 4","amount":126.0},{"date":"01/05/2024","description":"USA Waste & Recycling","memo":"Quarter 1","amount":126.0},{"date":"04/04/2024","description":"USA Waste & Recycling","memo":"Quarter 2","amount":126.0},{"date":"07/05/2024","description":"USA Waste & Recycling","memo":"Quarter 3","amount":126.0},{"date":"10/03/2024","description":"USA Waste & Recycling","memo":"Quarter 4","amount":132.0},{"date":"01/06/2025","description":"USA Waste & Recycling","memo":"Quarter 1","amount":132.0},{"date":"04/03/2025","description":"USA Waste & Recycling","memo":"Quarter 2","amount":132.0},{"date":"07/07/2025","description":"USA Waste & Recycling","memo":"Quarter 3","amount":132.0},{"date":"07/23/2025","description":"USA Waste & Recycling","memo":"Bear Garbage Can","amount":25.93},{"date":"10/03/2025","description":"USA Waste & Recycling","memo":"Quarter 4","amount":168.0},{"date":"01/06/2026","description":"USA Waste & Recycling","memo":"Quarter 1","amount":168.0},{"date":"04/06/2026","description":"USA Waste & Recycling","memo":"Quarter 2","amount":168.0},{"date":"07/03/2026","description":"USA Waste & Recycling","memo":"Quarter 3","amount":168.0},{"date":"10/05/2026","description":"USA Waste & Recycling","memo":"Quarter 4","amount":168.0}],"Heating Oil":[{"date":"12/12/2023","description":"Patterson Oil","memo":"OIL CO - ONLINE PMT","amount":585.66},{"date":"02/01/2024","description":"Patterson Oil","memo":"OIL CO - ONLINE PMT","amount":585.65},{"date":"03/01/2024","description":"Patterson Oil","memo":"OIL CO - ONLINE PMT","amount":281.12},{"date":"05/01/2024","description":"Patterson Oil","memo":"OIL CO - ONLINE PMT","amount":281.67},{"date":"12/04/2024","description":"Patterson Oil","memo":"OIL CO - ONLINE PMT","amount":462.15},{"date":"02/03/2025","description":"Patterson Oil","memo":"OIL CO - ONLINE PMT","amount":480.98},{"date":"03/04/2025","description":"Patterson Oil","memo":"OIL CO - ONLINE PMT","amount":500.11},{"date":"06/25/2025","description":"Patterson Oil","memo":"OIL CO - ONLINE PMT","amount":306.55},{"date":"12/20/2025","description":"Patterson Oil","memo":"OIL CO - ONLINE PMT","amount":697.38},{"date":"02/02/2026","description":"Patterson Oil","memo":"OIL CO - ONLINE PMT","amount":501.28},{"date":"03/02/2026","description":"Patterson Oil","memo":"OIL CO - ONLINE PMT","amount":572.44},{"date":"04/09/2026","description":"Patterson Oil","memo":"OIL CO - ONLINE PMT","amount":710.93}],"Income Tax":[{"date":"02/13/2024","description":"John W. Zimmerman","memo":"Tax On Interest - 2023","amount":80.0},{"date":"03/09/2024","description":"John R. Zimmerman","memo":"Tax On $213 Interest - 2023","amount":48.0},{"date":"04/05/2025","description":"Withdrawal State Income","memo":"State Income Tax on $798 Interest","amount":48.0},{"date":"04/05/2025","description":"Withdrawal Federal Income","memo":"Federal Income Tax on $798 Interest","amount":176.0},{"date":"04/05/2026","description":"Withdrawal Federal Income","memo":"Federal Income Tax on $834 Interest","amount":216.0},{"date":"04/05/2026","description":"Withdrawal State Income","memo":"State Income Tax on $834 Interest","amount":50.0}],"Internet Access":[{"date":"07/29/2023","description":"Spectrum Internet","memo":"June","amount":31.57},{"date":"07/29/2023","description":"Spectrum Internet","memo":"July","amount":54.99},{"date":"08/29/2023","description":"Spectrum Internet","memo":"August","amount":54.99},{"date":"09/30/2023","description":"Spectrum Internet","memo":"September","amount":54.99},{"date":"06/25/2024","description":"Spectrum Internet","memo":"June","amount":56.99},{"date":"07/25/2024","description":"Spectrum Internet","memo":"July","amount":56.99},{"date":"08/26/2024","description":"Spectrum Internet","memo":"August","amount":56.99},{"date":"09/25/2024","description":"Spectrum Internet","memo":"September","amount":56.99},{"date":"06/24/2025","description":"Spectrum Internet","memo":"May","amount":81.91},{"date":"07/22/2025","description":"Spectrum Internet","memo":"June","amount":50.0},{"date":"08/22/2025","description":"Spectrum Internet","memo":"July","amount":50.0},{"date":"09/22/2025","description":"Spectrum Internet","memo":"August","amount":50.0},{"date":"10/23/2025","description":"Spectrum Internet","memo":"September","amount":50.0},{"date":"06/29/2026","description":"Spectrum Internet","memo":"June","amount":21.27},{"date":"07/27/2026","description":"Spectrum Internet","memo":"July","amount":50.0},{"date":"08/27/2026","description":"Spectrum Internet","memo":"August","amount":50.0}],"Legal Fees":[{"date":"10/25/2023","description":"Cramer & Anderson LLP","memo":"$5000 Payment for Dock Issue","amount":5000.0},{"date":"11/09/2023","description":"Town Of Winchester","memo":"Copies of Documents","amount":55.0}],"Maintenance":[{"date":"07/31/2023","description":"Patrick King","memo":"Maintenance Labor","amount":160.0},{"date":"08/30/2023","description":"Andersen Windows","memo":"New Window","amount":125.92},{"date":"05/08/2024","description":"Harmony Gutters","memo":"Gutter Repair","amount":225.0},{"date":"06/04/2024","description":"Nick Maniccia","memo":"Lawn Mowing - Payment 1 of 3","amount":150.0},{"date":"07/23/2024","description":"Nick Maniccia","memo":"Lawn Mowing - Payment 2 of 3","amount":100.0},{"date":"09/03/2024","description":"Nick Maniccia","memo":"Lawn Mowing - Payment 3 of 3","amount":100.0},{"date":"09/23/2024","description":"Tracy Maniccia","memo":"Toilet Seat, Owl","amount":48.47},{"date":"05/19/2025","description":"Jay Sullivan","memo":"Barrels for Dock","amount":100.0},{"date":"05/20/2025","description":"Jack Sullivan","memo":"Lawn - Payment 1 of 2","amount":200.0},{"date":"05/22/2025","description":"Tracy Maniccia","memo":"Lawn Mower","amount":275.0},{"date":"08/05/2025","description":"Valiant Energy Solutions","memo":"Plumbing Issue - Sink","amount":348.83},{"date":"09/15/2025","description":"Carlson Heating","memo":"HVAC Maintenance","amount":255.24},{"date":"09/27/2025","description":"Barbara Zimmerman","memo":"Cleaning/Front Door/Mailbox","amount":255.9},{"date":"10/06/2025","description":"Patrick King","memo":"Front Door/Mailbox Repair","amount":160.0},{"date":"12/20/2025","description":"Jack Sullivan","memo":"Lawn - Payment 2 of 2","amount":150.0},{"date":"03/11/2026","description":"Tracy Maniccia","memo":"Post-Rental Cleaning","amount":185.0},{"date":"06/15/2026","description":"Jack Sullivan","memo":"Lawn - Payment 1 of 2","amount":150.0},{"date":"07/07/2026","description":"Tracy Maniccia","memo":"Bulb For Microwave","amount":23.35},{"date":"08/26/2026","description":"Jack Sullivan","memo":"Lawn - Payment 2 of 2","amount":200.0},{"date":"09/08/2026","description":"Tracy Maniccia","memo":"New Smoke Detectors","amount":141.4}],"Other":[{"date":"05/28/2024","description":"Highland Lake Watershed Association","memo":"Association Dues","amount":50.0},{"date":"07/21/2025","description":"Amazon","memo":"Privacy Screen","amount":24.45},{"date":"08/14/2025","description":"Highland Lake Watershed Association","memo":"Association Dues","amount":50.0},{"date":"05/19/2026","description":"Lowe's","memo":"Gas Grill","amount":211.64},{"date":"05/26/2026","description":"Tracy Maniccia","memo":"Miscellaneous Supplies","amount":59.91}],"Property Insurance":[{"date":"12/27/2023","description":"Andover Insurance","memo":"2024 Insurance","amount":1398.0},{"date":"12/07/2024","description":"Andover Insurance","memo":"2025 Insurance","amount":1582.0},{"date":"12/06/2025","description":"Andover Insurance","memo":"2026 Insurance","amount":1644.0}],"Property Tax":[{"date":"01/08/2024","description":"Town Of Winchester","memo":"2024-01-01 00:00:00","amount":5719.24},{"date":"08/06/2024","description":"Town Of Winchester","memo":"2024-07-01 00:00:00","amount":5719.24},{"date":"01/10/2025","description":"Town Of Winchester","memo":"2025-01-01 00:00:00","amount":6087.68},{"date":"07/21/2025","description":"Town Of Winchester","memo":"2025-07-01 00:00:00","amount":6321.72},{"date":"01/16/2026","description":"Town Of Winchester","memo":"2026-01-01 00:00:00","amount":6321.72},{"date":"07/17/2026","description":"Town Of Winchester","memo":"2026-07-01 00:00:00","amount":6501.6}],"Repairs":[{"date":"01/13/2026","description":"Service Proz CT Plumbing","memo":"Sewer Pipe - Payment 1","amount":2000.0},{"date":"01/16/2026","description":"Service Proz CT Plumbing","memo":"Sewer Pipe - Payment 2","amount":2000.0},{"date":"01/20/2026","description":"Service Proz CT Plumbing","memo":"Sewer Pipe - Payment 3","amount":1000.0},{"date":"02/09/2026","description":"Service Proz CT Plumbing","memo":"Frozen Pipes","amount":550.0},{"date":"02/20/2026","description":"Service Proz CT Plumbing","memo":"Leak in Furnace Room","amount":250.0}],"Sewer":[{"date":"11/08/2023","description":"Town Of Winchester","memo":"Quarter 3","amount":93.27},{"date":"02/14/2024","description":"Town Of Winchester","memo":"Quarter 4","amount":113.65},{"date":"05/15/2024","description":"Town Of Winchester","memo":"Quarter 1","amount":87.72},{"date":"08/12/2024","description":"Town Of Winchester","memo":"Quarter 2","amount":90.71},{"date":"11/14/2024","description":"Town Of Winchester","memo":"Quarter 3","amount":105.97},{"date":"02/12/2025","description":"Town Of Winchester","memo":"Quarter 4","amount":105.97},{"date":"05/08/2025","description":"Town Of Winchester","memo":"Quarter 1","amount":90.0},{"date":"08/08/2025","description":"Town Of Winchester","memo":"Quarter 2","amount":101.35},{"date":"11/06/2025","description":"Town Of Winchester","memo":"Quarter 3","amount":112.57},{"date":"02/17/2026","description":"Town Of Winchester","memo":"Quarter 4","amount":127.26},{"date":"05/05/2026","description":"Town Of Winchester","memo":"Quarter 1","amount":133.64},{"date":"08/03/2026","description":"Town Of Winchester","memo":"Quarter 2","amount":111.77}],"Tenant Management":[{"date":"10/06/2023","description":"Lesley Sullivan","memo":"October","amount":105.0},{"date":"11/06/2023","description":"Lesley Sullivan","memo":"November","amount":105.0},{"date":"12/05/2023","description":"Lesley Sullivan","memo":"December","amount":105.0},{"date":"01/24/2024","description":"Lesley Sullivan","memo":"January","amount":105.0},{"date":"10/02/2024","description":"Barbara Zimmerman","memo":"9/15 - 10/15","amount":110.0},{"date":"10/16/2024","description":"Barbara Zimmerman","memo":"10/15 - 10/31","amount":55.0},{"date":"11/12/2024","description":"Barbara Zimmerman","memo":"November","amount":110.0},{"date":"12/04/2024","description":"Barbara Zimmerman","memo":"December","amount":105.0},{"date":"09/27/2025","description":"Barbara Zimmerman","memo":"Oct. 2025 - Feb. 2026","amount":500.0},{"date":"09/03/2026","description":"Barbara Zimmerman","memo":"2026-27","amount":880.0}],"Treasurer Fees":[{"date":"09/30/2023","description":"John Zimmerman","memo":"September","amount":100.0},{"date":"10/31/2023","description":"John Zimmerman","memo":"October","amount":100.0},{"date":"11/29/2023","description":"John Zimmerman","memo":"November","amount":100.0},{"date":"12/29/2023","description":"John Zimmerman","memo":"December","amount":100.0},{"date":"01/31/2024","description":"John Zimmerman","memo":"January","amount":100.0},{"date":"02/29/2024","description":"John Zimmerman","memo":"February","amount":100.0},{"date":"03/31/2024","description":"John Zimmerman","memo":"March","amount":100.0},{"date":"04/26/2024","description":"John Zimmerman","memo":"April","amount":100.0},{"date":"06/02/2024","description":"John Zimmerman","memo":"May","amount":100.0},{"date":"06/29/2024","description":"John Zimmerman","memo":"June","amount":100.0},{"date":"07/31/2024","description":"John Zimmerman","memo":"July","amount":100.0},{"date":"09/01/2024","description":"John Zimmerman","memo":"August","amount":100.0},{"date":"09/21/2024","description":"John Zimmerman","memo":"September","amount":100.0},{"date":"10/30/2024","description":"John Zimmerman","memo":"October","amount":100.0},{"date":"11/27/2024","description":"John Zimmerman","memo":"November","amount":100.0},{"date":"12/31/2024","description":"John Zimmerman","memo":"December","amount":100.0},{"date":"01/27/2025","description":"John Zimmerman","memo":"January","amount":100.0},{"date":"02/26/2025","description":"John Zimmerman","memo":"February","amount":100.0},{"date":"03/28/2025","description":"John Zimmerman","memo":"March","amount":100.0},{"date":"04/30/2025","description":"John Zimmerman","memo":"April","amount":100.0},{"date":"05/29/2025","description":"John Zimmerman","memo":"May","amount":100.0},{"date":"07/06/2025","description":"John Zimmerman","memo":"June","amount":100.0},{"date":"07/31/2025","description":"John Zimmerman","memo":"July","amount":100.0},{"date":"08/22/2025","description":"John Zimmerman","memo":"August","amount":100.0},{"date":"09/27/2025","description":"John Zimmerman","memo":"September","amount":100.0},{"date":"10/25/2025","description":"John Zimmerman","memo":"October","amount":100.0},{"date":"11/28/2025","description":"John Zimmerman","memo":"November","amount":100.0},{"date":"12/20/2025","description":"John Zimmerman","memo":"December","amount":100.0},{"date":"02/02/2026","description":"John Zimmerman","memo":"January","amount":100.0},{"date":"03/02/2026","description":"John Zimmerman","memo":"February","amount":100.0},{"date":"03/19/2026","description":"John Zimmerman","memo":"March","amount":100.0},{"date":"04/27/2026","description":"John Zimmerman","memo":"April","amount":100.0},{"date":"05/26/2026","description":"John Zimmerman","memo":"May","amount":100.0},{"date":"06/26/2026","description":"John Zimmerman","memo":"June","amount":100.0},{"date":"07/29/2026","description":"John Zimmerman","memo":"July","amount":100.0},{"date":"08/26/2026","description":"John Zimmerman","memo":"August","amount":100.0},{"date":"09/28/2026","description":"John Zimmerman","memo":"September","amount":100.0}],"Water":[{"date":"11/08/2023","description":"Town Of Winchester","memo":"Quarter 3","amount":101.87},{"date":"02/14/2024","description":"Town Of Winchester","memo":"Quarter 4","amount":121.63},{"date":"05/13/2024","description":"Town Of Winchester","memo":"Quarter 1","amount":96.07},{"date":"08/12/2024","description":"Town Of Winchester","memo":"Quarter 2","amount":90.09},{"date":"11/14/2024","description":"Town Of Winchester","memo":"Quarter 3","amount":104.23},{"date":"02/12/2025","description":"Town Of Winchester","memo":"Quarter 4","amount":104.23},{"date":"05/08/2025","description":"Town Of Winchester","memo":"Quarter 1","amount":89.0},{"date":"08/14/2025","description":"Town Of Winchester","memo":"Quarter 2","amount":90.27},{"date":"11/06/2025","description":"Town Of Winchester","memo":"Quarter 3","amount":100.78},{"date":"02/17/2026","description":"Town Of Winchester","memo":"Quarter 4","amount":114.56},{"date":"05/05/2026","description":"Town Of Winchester","memo":"Quarter 1","amount":120.55},{"date":"08/06/2026","description":"Town Of Winchester","memo":"Quarter 2","amount":90.63}]},"inc_summary":{"Interest":2247.03,"Owner payments":40600.0,"Rental income":30887.0},"inc_detail":{"Interest":[{"date":"06/30/2023","description":"Checking Interest","memo":"Credit Interest","amount":1.52},{"date":"07/31/2023","description":"Checking Interest","memo":"Credit Interest","amount":2.12},{"date":"08/31/2023","description":"Checking Interest","memo":"Credit Interest","amount":2.04},{"date":"09/30/2023","description":"Checking Interest","memo":"Credit Interest","amount":4.24},{"date":"10/31/2023","description":"Checking Interest","memo":"Credit Interest","amount":3.35},{"date":"11/30/2023","description":"Checking Interest","memo":"Credit Interest","amount":1.53},{"date":"12/30/2023","description":"Checking Interest","memo":"Credit Interest","amount":1.28},{"date":"01/31/2024","description":"Checking Interest","memo":"Credit Interest","amount":2.22},{"date":"02/29/2024","description":"Checking Interest","memo":"Credit Interest","amount":1.32},{"date":"03/30/2024","description":"Checking Interest","memo":"Credit Interest","amount":0.48},{"date":"04/30/2024","description":"Checking Interest","memo":"Credit Interest","amount":0.65},{"date":"05/31/2024","description":"Checking Interest","memo":"Credit Interest","amount":0.73},{"date":"06/29/2024","description":"Checking Interest","memo":"Credit Interest","amount":0.57},{"date":"07/31/2024","description":"Checking Interest","memo":"Credit Interest","amount":0.86},{"date":"08/31/2024","description":"Checking Interest","memo":"Credit Interest","amount":1.04},{"date":"09/30/2024","description":"Checking Interest","memo":"Credit Interest","amount":0.78},{"date":"10/31/2024","description":"Checking Interest","memo":"Credit Interest","amount":0.65},{"date":"11/30/2024","description":"Checking Interest","memo":"Credit Interest","amount":1.05},{"date":"12/31/2024","description":"Checking Interest","memo":"Credit Interest","amount":0.77},{"date":"01/31/2025","description":"Checking Interest","memo":"Credit Interest","amount":1.29},{"date":"02/28/2025","description":"Checking Interest","memo":"Credit Interest","amount":0.3},{"date":"03/31/2025","description":"Checking Interest","memo":"Credit Interest","amount":0.29},{"date":"04/30/2025","description":"Checking Interest","memo":"Credit Interest","amount":0.39},{"date":"05/31/2025","description":"Checking Interest","memo":"Credit Interest","amount":0.71},{"date":"06/30/2025","description":"Checking Interest","memo":"Credit Interest","amount":1.21},{"date":"07/31/2025","description":"Checking Interest","memo":"Credit Interest","amount":1.86},{"date":"08/31/2025","description":"Checking Interest","memo":"Credit Interest","amount":0.49},{"date":"09/30/2025","description":"Checking Interest","memo":"Credit Interest","amount":0.97},{"date":"10/31/2025","description":"Checking Interest","memo":"Credit Interest","amount":1.13},{"date":"11/30/2025","description":"Checking Interest","memo":"Credit Interest","amount":1.01},{"date":"12/31/2025","description":"Checking Interest","memo":"Credit Interest","amount":0.43},{"date":"01/31/2026","description":"Checking Interest","memo":"Credit Interest","amount":1.09},{"date":"02/28/2026","description":"Checking Interest","memo":"Credit Interest","amount":0.37},{"date":"03/31/2026","description":"Checking Interest","memo":"Credit Interest","amount":0.47},{"date":"04/30/2026","description":"Checking Interest","memo":"Credit Interest","amount":0.68},{"date":"05/31/2026","description":"Checking Interest","memo":"Credit Interest","amount":0.93},{"date":"06/30/2026","description":"Checking Interest","memo":"Credit Interest","amount":1.06},{"date":"07/31/2026","description":"Checking Interest","memo":"Credit Interest","amount":1.56},{"date":"08/31/2026","description":"Checking Interest","memo":"Credit Interest","amount":0.85},{"date":"09/30/2026","description":"Checking Interest","memo":"Credit Interest","amount":0.48},{"date":"10/31/2023","description":"Savings Interest","memo":"Credit Interest","amount":47.54},{"date":"11/30/2023","description":"Savings Interest","memo":"Credit Interest","amount":70.09},{"date":"12/30/2023","description":"Savings Interest","memo":"Credit Interest","amount":79.03},{"date":"01/31/2024","description":"Savings Interest","memo":"Credit Interest","amount":61.44},{"date":"02/29/2024","description":"Savings Interest","memo":"Credit Interest","amount":52.2},{"date":"03/30/2024","description":"Savings Interest","memo":"Credit Interest","amount":61.96},{"date":"04/30/2024","description":"Savings Interest","memo":"Credit Interest","amount":61.01},{"date":"05/31/2024","description":"Savings Interest","memo":"Credit Interest","amount":63.14},{"date":"06/29/2024","description":"Savings Interest","memo":"Credit Interest","amount":67.47},{"date":"07/31/2024","description":"Savings Interest","memo":"Credit Interest","amount":70.49},{"date":"08/31/2024","description":"Savings Interest","memo":"Credit Interest","amount":56.01},{"date":"09/30/2024","description":"Savings Interest","memo":"Credit Interest","amount":58.63},{"date":"10/31/2024","description":"Savings Interest","memo":"Credit Interest","amount":75.23},{"date":"11/30/2024","description":"Savings Interest","memo":"Credit Interest","amount":77.29},{"date":"12/31/2024","description":"Savings Interest","memo":"Credit Interest","amount":81.92},{"date":"01/31/2025","description":"Savings Interest","memo":"Credit Interest","amount":65.49},{"date":"02/28/2025","description":"Savings Interest","memo":"Credit Interest","amount":60.56},{"date":"03/31/2025","description":"Savings Interest","memo":"Credit Interest","amount":67.23},{"date":"04/30/2025","description":"Savings Interest","memo":"Credit Interest","amount":65.26},{"date":"05/31/2025","description":"Savings Interest","memo":"Credit Interest","amount":67.63},{"date":"06/30/2025","description":"Savings Interest","memo":"Credit Interest","amount":65.65},{"date":"07/31/2025","description":"Savings Interest","memo":"Credit Interest","amount":57.53},{"date":"08/31/2025","description":"Savings Interest","memo":"Credit Interest","amount":56.15},{"date":"09/30/2025","description":"Savings Interest","memo":"Credit Interest","amount":53.5},{"date":"10/31/2025","description":"Savings Interest","memo":"Credit Interest","amount":91.55},{"date":"11/30/2025","description":"Savings Interest","memo":"Credit Interest","amount":86.33},{"date":"12/31/2025","description":"Savings Interest","memo":"Credit Interest","amount":87.48},{"date":"01/31/2026","description":"Savings Interest","memo":"Credit Interest","amount":65.26},{"date":"02/28/2026","description":"Savings Interest","memo":"Credit Interest","amount":48.73},{"date":"03/31/2026","description":"Savings Interest","memo":"Credit Interest","amount":46.08},{"date":"04/30/2026","description":"Savings Interest","memo":"Credit Interest","amount":41.94},{"date":"05/31/2026","description":"Savings Interest","memo":"Credit Interest","amount":43.45},{"date":"06/30/2026","description":"Savings Interest","memo":"Credit Interest","amount":42.15},{"date":"07/31/2026","description":"Savings Interest","memo":"Credit Interest","amount":34.27},{"date":"08/31/2026","description":"Savings Interest","memo":"Credit Interest","amount":31.07},{"date":"09/30/2026","description":"Savings Interest","memo":"","amount":41.5}],"Owner payments":[{"date":"08/23/2023","description":"Barbara Zimmerman","memo":"September","amount":200.0},{"date":"09/01/2023","description":"Barbara Zimmerman","memo":"Sept - $100, Oct - $100","amount":200.0},{"date":"09/06/2023","description":"Tracy Maniccia","memo":"September","amount":150.0},{"date":"09/06/2023","description":"John Zimmerman","memo":"September","amount":150.0},{"date":"09/07/2023","description":"Denise MacDonald","memo":"September","amount":300.0},{"date":"09/12/2023","description":"Irene Dzurilla","memo":"Owner Payments","amount":1400.0},{"date":"10/01/2023","description":"Denise MacDonald","memo":"October","amount":200.0},{"date":"10/03/2023","description":"John Zimmerman","memo":"October","amount":100.0},{"date":"10/04/2023","description":"Barbara Zimmerman","memo":"October","amount":100.0},{"date":"10/04/2023","description":"Barbara Zimmerman","memo":"November","amount":200.0},{"date":"10/05/2023","description":"Tracy Maniccia","memo":"October","amount":100.0},{"date":"10/30/2023","description":"Denise MacDonald","memo":"November, December","amount":400.0},{"date":"11/04/2023","description":"John Zimmerman","memo":"November","amount":100.0},{"date":"11/06/2023","description":"Tracy Maniccia","memo":"November","amount":100.0},{"date":"11/28/2023","description":"John Zimmerman","memo":"December","amount":100.0},{"date":"12/01/2023","description":"Barbara Zimmerman","memo":"December","amount":200.0},{"date":"12/04/2023","description":"Tracy Maniccia","memo":"December","amount":100.0},{"date":"12/29/2023","description":"Tracy Maniccia","memo":"January","amount":100.0},{"date":"12/29/2023","description":"John Zimmerman","memo":"January","amount":100.0},{"date":"01/03/2024","description":"Denise MacDonald","memo":"January","amount":200.0},{"date":"01/04/2024","description":"Barbara Zimmerman","memo":"January","amount":200.0},{"date":"01/26/2024","description":"Irene Dzurilla","memo":"February - May","amount":1200.0},{"date":"02/05/2024","description":"Tracy Maniccia","memo":"February","amount":150.0},{"date":"02/05/2024","description":"John Zimmerman","memo":"February","amount":150.0},{"date":"02/05/2024","description":"Denise MacDonald","memo":"February","amount":300.0},{"date":"02/05/2024","description":"Barbara Zimmerman","memo":"February","amount":300.0},{"date":"03/03/2024","description":"John Zimmerman","memo":"March","amount":150.0},{"date":"03/04/2024","description":"Tracy Maniccia","memo":"March","amount":150.0},{"date":"03/04/2024","description":"Denise MacDonald","memo":"March","amount":300.0},{"date":"03/04/2024","description":"Barbara Zimmerman","memo":"March","amount":300.0},{"date":"04/01/2024","description":"John Zimmerman","memo":"April","amount":150.0},{"date":"04/03/2024","description":"Barbara Zimmerman","memo":"April","amount":300.0},{"date":"04/03/2024","description":"Denise MacDonald","memo":"April","amount":300.0},{"date":"04/04/2024","description":"Tracy Maniccia","memo":"April","amount":150.0},{"date":"04/26/2024","description":"John Zimmerman","memo":"May","amount":150.0},{"date":"04/26/2024","description":"Denise MacDonald","memo":"May","amount":300.0},{"date":"05/02/2024","description":"Barbara Zimmerman","memo":"May","amount":300.0},{"date":"05/08/2024","description":"Tracy Maniccia","memo":"May","amount":150.0},{"date":"06/02/2024","description":"John Zimmerman","memo":"June","amount":150.0},{"date":"06/03/2024","description":"Barbara Zimmerman","memo":"June","amount":300.0},{"date":"06/03/2024","description":"Denise MacDonald","memo":"June","amount":300.0},{"date":"06/05/2024","description":"Tracy Maniccia","memo":"June","amount":150.0},{"date":"06/06/2024","description":"Irene Dzurilla","memo":"June - October","amount":1500.0},{"date":"06/29/2024","description":"John Zimmerman","memo":"July","amount":150.0},{"date":"07/01/2024","description":"Denise MacDonald","memo":"July","amount":300.0},{"date":"07/05/2024","description":"Tracy Maniccia","memo":"July","amount":150.0},{"date":"07/05/2024","description":"Barbara Zimmerman","memo":"July","amount":300.0},{"date":"07/31/2024","description":"John Zimmerman","memo":"August","amount":150.0},{"date":"08/01/2024","description":"Denise MacDonald","memo":"August","amount":300.0},{"date":"08/02/2024","description":"Barbara Zimmerman","memo":"August","amount":300.0},{"date":"08/05/2024","description":"Tracy Maniccia","memo":"August","amount":150.0},{"date":"09/01/2024","description":"John Zimmerman","memo":"September","amount":150.0},{"date":"09/03/2024","description":"Barbara Zimmerman","memo":"September","amount":300.0},{"date":"09/03/2024","description":"Denise MacDonald","memo":"September","amount":300.0},{"date":"09/04/2024","description":"Tracy Maniccia","memo":"September","amount":150.0},{"date":"09/21/2024","description":"John Zimmerman","memo":"October","amount":100.0},{"date":"09/23/2024","description":"Tracy Maniccia","memo":"October","amount":100.0},{"date":"09/30/2024","description":"Denise MacDonald","memo":"October, November, December","amount":600.0},{"date":"10/02/2024","description":"Barbara Zimmerman","memo":"October","amount":200.0},{"date":"10/30/2024","description":"John Zimmerman","memo":"November","amount":100.0},{"date":"10/31/2024","description":"Tracy Maniccia","memo":"November","amount":100.0},{"date":"11/04/2024","description":"Barbara Zimmerman","memo":"November","amount":200.0},{"date":"11/21/2024","description":"Irene Dzurilla","memo":"Dec 2024 - May 2025","amount":1700.0},{"date":"11/27/2024","description":"John Zimmerman","memo":"December","amount":100.0},{"date":"12/02/2024","description":"Tracy Maniccia","memo":"December","amount":100.0},{"date":"12/03/2024","description":"Barbara Zimmerman","memo":"December","amount":200.0},{"date":"01/01/2025","description":"John Zimmerman","memo":"January","amount":150.0},{"date":"01/02/2025","description":"Denise MacDonald","memo":"Jan - Mar 2025","amount":900.0},{"date":"01/06/2025","description":"Barbara Zimmerman","memo":"January","amount":200.0},{"date":"01/09/2025","description":"Tracy Maniccia","memo":"January","amount":150.0},{"date":"01/17/2025","description":"Barbara Zimmerman","memo":"January","amount":100.0},{"date":"01/27/2025","description":"John Zimmerman","memo":"February","amount":150.0},{"date":"02/03/2025","description":"Tracy Maniccia","memo":"February","amount":150.0},{"date":"02/05/2025","description":"Barbara Zimmerman","memo":"February","amount":300.0},{"date":"02/26/2025","description":"John Zimmerman","memo":"March","amount":150.0},{"date":"03/03/2025","description":"Tracy Maniccia","memo":"March","amount":150.0},{"date":"03/05/2025","description":"Barbara Zimmerman","memo":"March","amount":300.0},{"date":"03/28/2025","description":"John Zimmerman","memo":"April","amount":150.0},{"date":"03/31/2025","description":"Denise MacDonald","memo":"April","amount":300.0},{"date":"04/01/2025","description":"Tracy Maniccia","memo":"April","amount":150.0},{"date":"04/16/2025","description":"Barbara Zimmerman","memo":"April","amount":300.0},{"date":"04/30/2025","description":"Tracy Maniccia","memo":"May","amount":150.0},{"date":"05/01/2025","description":"Denise MacDonald","memo":"May","amount":300.0},{"date":"05/02/2025","description":"John Zimmerman","memo":"May","amount":150.0},{"date":"05/02/2025","description":"Barbara Zimmerman","memo":"May","amount":300.0},{"date":"05/28/2025","description":"Barbara Zimmerman","memo":"June","amount":300.0},{"date":"05/28/2025","description":"Irene Dzurilla","memo":"June, July, August, September","amount":1200.0},{"date":"05/29/2025","description":"John Zimmerman","memo":"June","amount":150.0},{"date":"06/02/2025","description":"Denise MacDonald","memo":"June","amount":300.0},{"date":"06/03/2025","description":"Tracy Maniccia","memo":"June","amount":150.0},{"date":"07/06/2025","description":"John Zimmerman","memo":"July","amount":150.0},{"date":"07/07/2025","description":"Tracy Maniccia","memo":"July","amount":150.0},{"date":"07/07/2025","description":"Barbara Zimmerman","memo":"July","amount":300.0},{"date":"07/07/2025","description":"Denise MacDonald","memo":"July","amount":300.0},{"date":"07/31/2025","description":"John Zimmerman","memo":"August","amount":150.0},{"date":"08/01/2025","description":"Barbara Zimmerman","memo":"August","amount":300.0},{"date":"08/04/2025","description":"Denise MacDonald","memo":"August","amount":300.0},{"date":"08/06/2025","description":"Tracy Maniccia","memo":"August","amount":150.0},{"date":"08/22/2025","description":"John Zimmerman","memo":"September","amount":150.0},{"date":"08/29/2025","description":"Denise MacDonald","memo":"September","amount":300.0},{"date":"09/02/2025","description":"Tracy Maniccia","memo":"September","amount":150.0},{"date":"09/15/2025","description":"Barbara Zimmerman","memo":"September","amount":300.0},{"date":"09/27/2025","description":"John Zimmerman","memo":"October","amount":100.0},{"date":"09/29/2025","description":"Tracy Maniccia","memo":"October","amount":100.0},{"date":"09/29/2025","description":"Denise MacDonald","memo":"October","amount":200.0},{"date":"09/29/2025","description":"Barbara Zimmerman","memo":"October","amount":200.0},{"date":"10/14/2025","description":"Irene Dzurilla","memo":"October-April","amount":1400.0},{"date":"10/25/2025","description":"John Zimmerman","memo":"November","amount":100.0},{"date":"10/27/2025","description":"Tracy Maniccia","memo":"November","amount":100.0},{"date":"10/27/2025","description":"Barbara Zimmerman","memo":"November","amount":200.0},{"date":"10/27/2025","description":"Denise MacDonald","memo":"November","amount":200.0},{"date":"11/28/2025","description":"John Zimmerman","memo":"December","amount":100.0},{"date":"11/29/2025","description":"Tracy Maniccia","memo":"December","amount":100.0},{"date":"11/29/2025","description":"Denise MacDonald","memo":"December","amount":200.0},{"date":"12/01/2025","description":"Barbara Zimmerman","memo":"December","amount":200.0},{"date":"01/01/2026","description":"John Zimmerman","memo":"January","amount":100.0},{"date":"01/01/2026","description":"Tracy Maniccia","memo":"January","amount":100.0},{"date":"01/01/2026","description":"Denise MacDonald","memo":"January","amount":200.0},{"date":"01/13/2026","description":"Barbara Zimmerman","memo":"January","amount":200.0},{"date":"01/14/2026","description":"Barbara Zimmerman","memo":"February","amount":200.0},{"date":"02/02/2026","description":"Tracy Maniccia","memo":"February","amount":100.0},{"date":"02/02/2026","description":"Denise MacDonald","memo":"February","amount":200.0},{"date":"02/02/2026","description":"John Zimmerman","memo":"February","amount":100.0},{"date":"02/09/2026","description":"Barbara Zimmerman","memo":"March","amount":200.0},{"date":"03/02/2026","description":"John Zimmerman","memo":"March","amount":100.0},{"date":"03/03/2026","description":"Denise MacDonald","memo":"March","amount":200.0},{"date":"03/04/2026","description":"Tracy Maniccia","memo":"March","amount":100.0},{"date":"03/04/2026","description":"Barbara Zimmerman","memo":"April","amount":200.0},{"date":"03/19/2026","description":"John Zimmerman","memo":"April","amount":150.0},{"date":"03/20/2026","description":"Tracy Maniccia","memo":"April","amount":150.0},{"date":"04/03/2026","description":"Denise MacDonald","memo":"April","amount":300.0},{"date":"04/06/2026","description":"Irene Dzurilla","memo":"April - August","amount":1300.0},{"date":"04/20/2026","description":"Barbara Zimmerman","memo":"April","amount":100.0},{"date":"04/27/2026","description":"John Zimmerman","memo":"May","amount":150.0},{"date":"04/27/2026","description":"Barbara Zimmerman","memo":"May","amount":100.0},{"date":"04/27/2026","description":"Tracy Maniccia","memo":"May","amount":150.0},{"date":"04/27/2026","description":"Barbara Zimmerman","memo":"May","amount":200.0},{"date":"04/28/2026","description":"Denise MacDonald","memo":"May","amount":300.0},{"date":"05/20/2026","description":"Tracy Maniccia","memo":"June","amount":150.0},{"date":"05/26/2026","description":"John Zimmerman","memo":"June","amount":150.0},{"date":"05/28/2026","description":"Denise MacDonald","memo":"June","amount":300.0},{"date":"05/29/2026","description":"Barbara Zimmerman","memo":"June","amount":300.0},{"date":"06/26/2026","description":"John Zimmerman","memo":"July","amount":150.0},{"date":"06/29/2026","description":"Denise MacDonald","memo":"July","amount":300.0},{"date":"07/03/2026","description":"Tracy Maniccia","memo":"July","amount":150.0},{"date":"07/07/2026","description":"Barbara Zimmerman","memo":"July","amount":300.0},{"date":"07/29/2026","description":"John Zimmerman","memo":"August","amount":150.0},{"date":"07/30/2026","description":"Barbara Zimmerman","memo":"August","amount":300.0},{"date":"08/03/2026","description":"Tracy Maniccia","memo":"August","amount":150.0},{"date":"08/03/2026","description":"Denise MacDonald","memo":"August","amount":300.0},{"date":"08/26/2026","description":"John Zimmerman","memo":"September","amount":100.0},{"date":"08/27/2026","description":"Denise MacDonald","memo":"September","amount":200.0},{"date":"09/01/2026","description":"Barbara Zimmerman","memo":"September","amount":300.0},{"date":"09/02/2026","description":"Tracy Maniccia","memo":"September","amount":100.0},{"date":"09/25/2026","description":"Irene Dzurilla","memo":"Sept-Dec","amount":1000.0},{"date":"09/28/2026","description":"John Zimmerman","memo":"October","amount":100.0},{"date":"09/28/2026","description":"Denise MacDonald","memo":"October","amount":200.0},{"date":"09/28/2026","description":"Barbara Zimmerman","memo":"October-November","amount":300.0},{"date":"10/05/2026","description":"Tracy Maniccia","memo":"October","amount":100.0}],"Rental income":[{"date":"10/12/2023","description":"James Tolman","memo":"Rent - October","amount":2100.0},{"date":"11/02/2023","description":"James Tolman","memo":"Rent - November","amount":2100.0},{"date":"12/05/2023","description":"James Tolman","memo":"Rent - December","amount":2100.0},{"date":"01/08/2024","description":"James Tolman","memo":"Rent - January","amount":2100.0},{"date":"09/17/2024","description":"David Wilcox","memo":"Rent - 9/15 - 10/15","amount":500.0},{"date":"09/23/2024","description":"David Wilcox","memo":"Rent - 9/15 - 10/15","amount":1700.0},{"date":"10/15/2024","description":"David Wilcox","memo":"Rent - 10/15 - 10/31","amount":1100.0},{"date":"11/12/2024","description":"David Wilcox","memo":"Rent - November","amount":2200.0},{"date":"12/03/2024","description":"David Wilcox","memo":"Rent - December","amount":2200.0},{"date":"09/27/2025","description":"Barbara Zimmerman","memo":"Alice Richard - Tenant","amount":10000.0},{"date":"03/11/2026","description":"Alice Richard","memo":"2006-03-01 00:00:00","amount":387.0},{"date":"09/03/2026","description":"Michele Daily","memo":"2026-09-01 00:00:00","amount":2200.0},{"date":"10/06/2026","description":"Michele Daily","memo":"October","amount":2200.0}]},"as_of_date":"10/6/2026","report_month":"Q3 2026","current_month":"October 2026","annual_data":{"labels":["Jun–Dec 2023","2024","2025","Jan–Oct 2026"],"owner_dues":[4300,13800,12500,10000],"rental":[6300,9800,10000,4787],"interest":[213,798,834,402],"expenses":[9000,19480,21995,25457]},"period":{"since":"September 2, 2026","as_of":"October 6, 2026","headline":"Cash up $6,521, mainly $4,400 in rent from Michele Daily (September and October), $1,700 in owner payments, and her $1,700 security deposit.","flags":[{"kind":"periodic","series":"Rental Deposit","why":"annual item","date":"09/03/2026","amount":1700.0,"description":"Michele Daily","type":"deposit"},{"kind":"periodic","series":"Owner payment — Irene Dzurilla","why":"comes around every 6 months","date":"09/25/2026","amount":1000.0,"description":"Irene Dzurilla","type":"owner"},{"kind":"periodic","series":"Garbage Removal","why":"comes around every 3 months","date":"10/05/2026","amount":168.0,"description":"USA Waste & Recycling","type":"expense"}],"routine_n":11,"routine_total":5414.95,"income":[{"date":"09/03/2026","description":"Michele Daily","memo":"2026-09-01 00:00:00","amount":2200.0,"category":"Rental income","kind":"income"},{"date":"09/03/2026","description":"Michele Daily","memo":"Security Deposit","amount":1700.0,"signed":1700.0,"category":"Rental Deposit","kind":"deposit"},{"date":"09/25/2026","description":"Irene Dzurilla","memo":"Sept-Dec","amount":1000.0,"category":"Owner payments","kind":"income"},{"date":"09/28/2026","description":"John Zimmerman","memo":"October","amount":100.0,"category":"Owner payments","kind":"income"},{"date":"09/28/2026","description":"Denise MacDonald","memo":"October","amount":200.0,"category":"Owner payments","kind":"income"},{"date":"09/28/2026","description":"Barbara Zimmerman","memo":"October-November","amount":300.0,"category":"Owner payments","kind":"income"},{"date":"09/30/2026","description":"Checking Interest","memo":"Credit Interest","amount":0.48,"category":"Interest","kind":"income"},{"date":"09/30/2026","description":"Savings Interest","memo":"","amount":41.5,"category":"Interest","kind":"income"},{"date":"10/05/2026","description":"Tracy Maniccia","memo":"October","amount":100.0,"category":"Owner payments","kind":"income"},{"date":"10/06/2026","description":"Michele Daily","memo":"October","amount":2200.0,"category":"Rental income","kind":"income"}],"expenses":[{"date":"09/03/2026","description":"Barbara Zimmerman","memo":"2026-27","amount":880.0,"category":"Tenant Management","kind":"expense"},{"date":"09/08/2026","description":"Tracy Maniccia","memo":"New Smoke Detectors","amount":141.4,"category":"Maintenance","kind":"expense"},{"date":"09/28/2026","description":"John Zimmerman","memo":"September","amount":100.0,"category":"Treasurer Fees","kind":"expense"},{"date":"09/29/2026","description":"Eversource Energy","memo":"- WEB_PAY","amount":31.57,"category":"Electricity","kind":"expense"},{"date":"10/05/2026","description":"USA Waste & Recycling","memo":"Quarter 4","amount":168.0,"category":"Garbage Removal","kind":"expense"}],"total_in":7841.98,"total_out":1320.97,"net":6521.01,"prior_total":14773.27,"total_bal":21294.28},"notes":["We have agreed to let Michele Daily out of her lease early. She plans to move out on October 15.","Once Michele moves out, the cottage will be leased to our cousin Shelby Dzurilla-Knee at $600/month going forward."],"ytd":{"year":2026,"prev_year":2025,"through":"October 6","income":15188.94,"expenses":25456.65,"net":-10267.71,"prev_income":20466.51,"prev_expenses":18764.28,"prev_net":1702.23,"deposits":-1615.0,"prev_deposits":4000.0,"cash_change":-11882.71,"prev_cash_change":5702.23,"pace":77,"rows":[{"category":"Property Tax","now":12823.32,"prev":12409.4,"delta":413.92},{"category":"Repairs","now":5800.0,"prev":0.0,"delta":5800.0},{"category":"Heating Oil","now":1784.65,"prev":1287.64,"delta":497.01},{"category":"Treasurer Fees","now":900.0,"prev":900.0,"delta":0.0},{"category":"Tenant Management","now":880.0,"prev":500.0,"delta":380.0},{"category":"Maintenance","now":699.75,"prev":1594.97,"delta":-895.22},{"category":"Garbage Removal","now":672.0,"prev":589.93,"delta":82.07},{"category":"Electricity","now":539.7,"prev":371.16,"delta":168.54},{"category":"Sewer","now":372.67,"prev":297.32,"delta":75.35},{"category":"Water","now":325.74,"prev":283.5,"delta":42.24},{"category":"Other","now":271.55,"prev":74.45,"delta":197.1},{"category":"Income Tax","now":266.0,"prev":224.0,"delta":42.0},{"category":"Internet Access","now":121.27,"prev":231.91,"delta":-110.64}],"income_rows":[{"category":"Owner payments","now":10000.0,"prev":9900.0,"delta":100.0},{"category":"Rental income","now":4787.0,"prev":10000.0,"delta":-5213.0},{"category":"Interest","now":401.94,"prev":566.51,"delta":-164.57}]},"owners":[{"owner":"Irene Dzurilla","total":10700.0,"thru":"Dec 2026","credit":400.0,"behind":false,"share":1.0},{"owner":"Barbara Zimmerman","total":10100.0,"thru":"Nov 2026","credit":0.0,"behind":false,"share":1.0},{"owner":"Denise MacDonald","total":9900.0,"thru":"Oct 2026","credit":0.0,"behind":false,"share":1.0},{"owner":"Tracy Maniccia","total":4950.0,"thru":"Oct 2026","credit":0.0,"behind":false,"share":0.5},{"owner":"John Zimmerman","total":4950.0,"thru":"Oct 2026","credit":0.0,"behind":false,"share":0.5}]};
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+function fmtDollar(v, decimals=0) {
+  return '$' + v.toLocaleString(undefined, {minimumFractionDigits:decimals, maximumFractionDigits:decimals});
+}
+function fmtK(v) {
+  if(Math.abs(v)>=1000) return '$'+(v/1000).toFixed(0)+'k';
+  return fmtDollar(v);
+}
+
+// ── CHARTS (deferred until page fully loaded for mobile compatibility) ─────────
+window.addEventListener('load', function() {
+
+  // ── FAMILY UPDATES ─────────────────────────────────────────────
+  (function() {
+    const notes = DATA.notes;
+    const host = document.getElementById('reportNotes');
+    if (!host || !notes || !notes.length) return;
+    const esc = s => String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    host.innerHTML = '<div class="notes-card"><div class="period-head">Updates</div><ul>' +
+      notes.map(n => '<li>' + esc(n) + '</li>').join('') + '</ul></div>';
+  })();
+
+  // ── ACTIVITY SINCE LAST RUN ────────────────────────────────────
+  (function() {
+    const p = DATA.period;
+    const host = document.getElementById('periodSummary');
+    if (!host || !p) return;                       // omit entirely on first run
+    if (!p.income.length && !p.expenses.length) return;
+
+    const esc = s => String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+
+    function rows(list, cls, sign) {
+      return list.map(t => {
+        const isDeposit = t.kind === 'deposit';
+        return '<tr>' +
+          '<td class="period-date">' + esc(t.date) + '</td>' +
+          '<td>' + esc(t.category) +
+            (isDeposit ? '<span class="badge-new">deposit</span>' : '') +
+            (t.description ? '<span class="period-desc">' + esc(t.description) +
+              (t.memo && t.memo !== t.description ? ' — ' + esc(t.memo) : '') +
+              '</span>' : '') +
+          '</td>' +
+          '<td class="' + cls + '">' + sign + fmtDollar(t.amount, 2) + '</td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    // What each kind of flag means, in plain language
+    const KIND = {
+      overdue:  ['Expected but not received', 'flag-warn'],
+      new:      ['First time',                'flag-new'],
+      periodic: ['Periodic item',             'flag-per'],
+      large:    ['Larger than usual',         'flag-big']
+    };
+
+    const netUp = p.net >= 0;
+    let html = '<div class="period-card">' +
+      '<div class="period-head">What changed since ' + esc(p.since) + '</div>' +
+      '<div class="period-headline">' + esc(p.headline) + '</div>' +
+      '<div class="period-net">' +
+        'In <b class="up">' + fmtDollar(p.total_in, 2) + '</b> &nbsp;·&nbsp; ' +
+        'Out <b class="down">' + fmtDollar(p.total_out, 2) + '</b> &nbsp;·&nbsp; ' +
+        'Net <b class="' + (netUp ? 'up' : 'down') + '">' +
+          (netUp ? '+' : '−') + fmtDollar(Math.abs(p.net), 2) + '</b>' +
+      '</div>';
+
+    // Only the things that differ from a normal month
+    if (p.flags && p.flags.length) {
+      html += '<div class="flag-list">';
+      p.flags.forEach(f => {
+        const meta = KIND[f.kind] || ['Notable', 'flag-per'];
+        const out  = (f.type === 'expense' || f.type === 'refund');
+        html += '<div class="flag">' +
+          '<span class="flag-tag ' + meta[1] + '">' + meta[0] + '</span>' +
+          '<div class="flag-body">' +
+            '<span class="flag-name">' + esc(f.series) + '</span>' +
+            (f.kind === 'overdue'
+              ? '<span class="flag-amt">none this period</span>'
+              : '<span class="flag-amt ' + (out ? 'amt-out' : 'amt-in') + '">' +
+                (out ? '−' : '+') + fmtDollar(f.amount, 2) + '</span>') +
+            '<span class="period-desc">' +
+              (f.date && f.kind !== 'overdue' ? esc(f.date) + ' · ' : '') +
+              (f.description ? esc(f.description) + ' · ' : '') +
+              esc(f.why || '') +
+            '</span>' +
+          '</div>' +
+        '</div>';
+      });
+      html += '</div>';
+    }
+
+    if (p.routine_n) {
+      html += '<div class="routine-line">Plus ' + p.routine_n +
+        ' routine ' + (p.routine_n === 1 ? 'item' : 'items') +
+        ' (utilities, owner payments, interest, treasurer fees) totalling ' +
+        fmtDollar(p.routine_total, 2) + '.</div>';
+    }
+
+    // Full detail stays available, just not in the way
+    const n = p.income.length + p.expenses.length;
+    html += '<div class="period-toggle" id="periodToggle">Show all ' + n +
+            ' transactions</div>' +
+            '<div id="periodDetail" style="display:none">' +
+      '<table class="period-table">' +
+        '<thead><tr><th>Date</th><th>Category</th><th>Amount</th></tr></thead><tbody>';
+    if (p.income.length) {
+      html += '<tr><td colspan="3" class="period-group">Money in</td></tr>' +
+              rows(p.income, 'amt-in', '+');
+    }
+    if (p.expenses.length) {
+      html += '<tr><td colspan="3" class="period-group">Money out</td></tr>' +
+              rows(p.expenses, 'amt-out', '−');
+    }
+    html += '<tr class="period-total"><td></td><td>Net change</td>' +
+        '<td class="' + (netUp ? 'amt-in' : 'amt-out') + '">' +
+          (netUp ? '+' : '−') + fmtDollar(Math.abs(p.net), 2) + '</td></tr>' +
+      '</tbody></table></div>' +
+      '<div class="note">Covers ' + esc(p.since) + ' through ' + esc(p.as_of) +
+      '. Security deposits are shown here because they move cash, but they are ' +
+      'excluded from the income and expense charts below — the trust holds that ' +
+      'money rather than earning it.</div>' +
+      '</div>';
+
+    host.innerHTML = html;
+
+    const tog = document.getElementById('periodToggle');
+    const det = document.getElementById('periodDetail');
+    if (tog && det) {
+      tog.addEventListener('click', function() {
+        const open = det.style.display !== 'none';
+        det.style.display = open ? 'none' : 'block';
+        tog.textContent = open ? ('Show all ' + n + ' transactions')
+                               : 'Hide transactions';
+      });
+    }
+  })();
+
+  // ── OWNER PAYMENT STATUS ───────────────────────────────────────
+  (function() {
+    const rows = DATA.owners;
+    const host = document.getElementById('ownerRows');
+    if (!host || !rows || !rows.length) return;
+
+    const esc = s => String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+    let html = '', total = 0;
+    rows.forEach(r => {
+      total += r.total;
+      const pct = (r.share * 25).toFixed(r.share === 1 ? 0 : 1) + '%';
+
+      // Describe the standing in plain words rather than a bare number
+      let note = r.thru ? 'Paid thru ' + esc(r.thru) : 'No payments recorded';
+      let cls  = '';
+      if (r.credit != null && Math.abs(r.credit) >= 1) {
+        if (r.credit > 0) { note += ', ' + fmtDollar(r.credit) + ' credit'; cls = ' credit'; }
+        else              { note += ', ' + fmtDollar(-r.credit) + ' owing'; }
+      }
+      if (r.behind) { note += ' — payment due'; cls = ''; }
+
+      html += '<tr><td>' + esc(r.owner) +
+        '<span class="owner-sub' + cls + '">' + note + '</span></td>' +
+        '<td><span class="pct-badge">' + pct + '</span></td>' +
+        '<td>' + fmtDollar(r.total) + '</td></tr>';
+    });
+    html += '<tr><td>Total</td><td></td><td>' + fmtDollar(total) + '</td></tr>';
+    host.innerHTML = html;
+  })();
+
+  // ── YEAR TO DATE ───────────────────────────────────────────────
+  (function() {
+    const y = DATA.ytd;
+    const host = document.getElementById('ytdSection');
+    if (!host || !y) return;
+
+    const esc = s => String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+    // fmtDollar already renders a leading minus, so format the magnitude
+    // and attach the sign ourselves to avoid "−$-15,621".
+    function signed(v) {
+      return (v < 0 ? '−' : '') + fmtDollar(Math.abs(v));
+    }
+
+    function delta(v) {
+      if (Math.abs(v) < 1) return '<span class="d-flat">—</span>';
+      const up = v > 0;
+      return '<span class="' + (up ? 'd-up' : 'd-down') + '">' +
+             (up ? '+' : '−') + fmtDollar(Math.abs(v)) + '</span>';
+    }
+
+    const rows = y.rows.filter(r => r.now > 0 || r.prev > 0).slice(0, 10);
+
+    let html =
+      '<div class="section-label" style="margin-top:1.75rem">' +
+        'This year so far — January 1 to ' + esc(y.through) + ', ' + y.year +
+      '</div>' +
+      '<div class="ytd-grid">' +
+        '<div class="kpi"><div class="lbl">Income</div><div class="val">' +
+          fmtDollar(y.income) + '</div><div class="sub">' +
+          y.prev_year + ': ' + fmtDollar(y.prev_income) + '</div></div>' +
+        '<div class="kpi"><div class="lbl">Expenses</div><div class="val">' +
+          fmtDollar(y.expenses) + '</div><div class="sub">' +
+          y.prev_year + ': ' + fmtDollar(y.prev_expenses) + '</div></div>' +
+        '<div class="kpi"><div class="lbl">Operating net</div><div class="val ' +
+          (y.net >= 0 ? 'pos' : 'neg') + '">' +
+          signed(y.net) + '</div><div class="sub">' +
+          y.prev_year + ': ' + signed(y.prev_net) + '</div></div>' +
+        '<div class="kpi"><div class="lbl">Cash change</div><div class="val ' +
+          (y.cash_change >= 0 ? 'pos' : 'neg') + '">' +
+          signed(y.cash_change) + '</div><div class="sub">' +
+          y.prev_year + ': ' + signed(y.prev_cash_change) + '</div></div>' +
+      '</div>';
+
+    // Explain the gap between the two net figures, or the pair looks like
+    // a contradiction rather than two different questions.
+    if (Math.abs(y.deposits) >= 1) {
+      const took = y.deposits >= 0;
+      html += '<div class="ytd-note">Cash change differs from operating net because ' +
+        'security deposits move money without being income or expense: this year ' +
+        (took ? 'the trust took in ' : 'the trust refunded a net ') +
+        fmtDollar(Math.abs(y.deposits)) + ' in tenant deposits.</div>';
+    }
+
+    if (y.pace) {
+      html += '<div class="ytd-context">Income arrives unevenly across the year — ' +
+        'rent is collected mostly in the autumn. Historically about <b>' + y.pace +
+        '%</b> of a full year&rsquo;s income has come in by this point, so a ' +
+        'mid-year shortfall is expected rather than a warning sign.</div>';
+    }
+
+    html += '<div class="card"><div class="card-title">Expenses this year vs. same point last year</div>' +
+      '<table class="owner-table"><thead><tr><th>Category</th><th>' + y.year +
+      '</th><th>' + y.prev_year + '</th><th>Change</th></tr></thead><tbody>';
+    rows.forEach(r => {
+      html += '<tr><td>' + esc(r.category) + '</td>' +
+        '<td>' + fmtDollar(r.now) + '</td>' +
+        '<td>' + fmtDollar(r.prev) + '</td>' +
+        '<td>' + delta(r.delta) + '</td></tr>';
+    });
+    html += '<tr><td>Total</td><td>' + fmtDollar(y.expenses) + '</td><td>' +
+      fmtDollar(y.prev_expenses) + '</td><td>' +
+      delta(y.expenses - y.prev_expenses) + '</td></tr>';
+    html += '</tbody></table>' +
+      '<div class="note">A rise in expenses shows as an increase here; it is not ' +
+      'necessarily unfavourable — larger repair years reflect work being done.</div>' +
+      '</div>';
+
+    host.innerHTML = html;
+  })();
+
+
+// ── ANNUAL STACKED BAR CHART ──────────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('annualChart');
+  const AD = DATA.annual_data;
+  if(!AD) return;
+
+  const PAD = {top:20, right:20, bottom:40, left:52};
+  const COLORS = {owner_dues:'#1a5fa8', rental:'#1a7a52', interest:'#b5750a', expenses:'#c0392b'};
+  const LABELS = {owner_dues:'Owner Payments', rental:'Rental Income', interest:'Interest', expenses:'Expenses'};
+  const SERIES = ['owner_dues','rental','interest','expenses'];
+
+  function draw() {
+    const W = canvas.offsetWidth || 700;
+    const H = 260;
+    canvas.width = W * devicePixelRatio;
+    canvas.height = H * devicePixelRatio;
+    canvas.style.width = W+'px';
+    canvas.style.height = H+'px';
+    const ctx = canvas.getContext('2d');
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+
+    const pw = W - PAD.left - PAD.right;
+    const ph = H - PAD.top - PAD.bottom;
+    const n = AD.labels.length;
+
+    // Compute stacked totals
+    const incomes = AD.labels.map((_,i) => AD.owner_dues[i] + AD.rental[i] + AD.interest[i]);
+    const exps = AD.expenses;
+    const maxVal = Math.max(...incomes, ...exps);
+    const yMax = Math.ceil(maxVal / 5000) * 5000 || 10000;
+
+    // Grid
+    ctx.strokeStyle = '#e0dfd7';
+    ctx.lineWidth = 1;
+    const yTicks = 5;
+    for(let t=0; t<=yTicks; t++) {
+      const yv = yMax * t / yTicks;
+      const y = PAD.top + ph - (yv / yMax * ph);
+      ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(PAD.left+pw, y); ctx.stroke();
+      ctx.fillStyle = '#5a5955'; ctx.font = '11px system-ui';
+      ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      ctx.fillText(fmtK(yv), PAD.left-6, y);
+    }
+
+    // Bars
+    const groupW = pw / n;
+    const barGap = 0.18;
+    const barW = groupW * (1 - barGap * 2) / 2;
+    const groupGap = groupW * barGap;
+
+    const tooltip = { visible:false, x:0, y:0, label:'', val:0, series:'' };
+
+    for(let i=0; i<n; i++) {
+      const gx = PAD.left + i * groupW + groupGap;
+
+      // Income stack (left bar of pair)
+      const bx = gx;
+      let base = PAD.top + ph;
+      ['owner_dues','rental','interest'].forEach(s => {
+        const v = AD[s][i];
+        const bh = (v / yMax) * ph;
+        base -= bh;
+        ctx.fillStyle = COLORS[s];
+        ctx.fillRect(bx, base, barW, bh);
+      });
+
+      // Expense bar (right of pair)
+      const ex = gx + barW + 4;
+      const ev = exps[i];
+      const ebh = (ev / yMax) * ph;
+      ctx.fillStyle = COLORS.expenses;
+      const ey = PAD.top + ph - ebh;
+      ctx.fillRect(ex, ey, barW, ebh);
+
+      // X label
+      ctx.fillStyle = '#5a5955'; ctx.font = '11px system-ui';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.fillText(AD.labels[i], gx + barW, PAD.top + ph + 6);
+    }
+  }
+
+  draw();
+  window.addEventListener('resize', draw);
+})();
+
+// ── EXPENSE HORIZONTAL BAR CHART ──────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('expChart');
+  const labels = Object.keys(DATA.exp_summary);
+  const values = Object.values(DATA.exp_summary);
+  const total = values.reduce((a,b)=>a+b,0);
+
+  document.getElementById('expTotal').innerHTML =
+    'Total expenses since Jun 2023: <strong>' + fmtDollar(Math.round(total)) + '</strong>. Click any bar for transaction detail.<br>' +
+    '<em>One-time items: Legal fees ($5,055) relate to a dock boundary dispute resolved in 2023. ' +
+    'Repairs ($5,800) reflect a sewer pipe replacement in early 2026, also a one-time cost.</em>';
+
+  const PAD = {top:10, right:16, bottom:10, left:148};
+  const BAR_H = 22;
+  const GAP = 6;
+  const H = labels.length * (BAR_H + GAP) + PAD.top + PAD.bottom;
+  const COLOR = '#1a5fa8';
+  const HOVER = '#1246a0';
+
+  let hoveredIdx = -1;
+
+  function draw() {
+    const W = canvas.offsetWidth || 700;
+    canvas.width = W * devicePixelRatio;
+    canvas.height = H * devicePixelRatio;
+    canvas.style.width = W+'px';
+    canvas.style.height = H+'px';
+    const ctx = canvas.getContext('2d');
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+
+    const pw = W - PAD.left - PAD.right;
+    const maxVal = values[0];
+
+    labels.forEach((lbl, i) => {
+      const y = PAD.top + i * (BAR_H + GAP);
+      const v = values[i];
+      const bw = (v / maxVal) * pw;
+
+      // Bar
+      ctx.fillStyle = i === hoveredIdx ? HOVER : COLOR;
+      ctx.beginPath();
+      ctx.roundRect(PAD.left, y, bw, BAR_H, 3);
+      ctx.fill();
+
+      // Label (left)
+      ctx.fillStyle = '#1a1a18'; ctx.font = '12px system-ui';
+      ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      ctx.fillText(lbl, PAD.left - 6, y + BAR_H/2);
+
+      // Value: inside bar if near edge, otherwise to the right
+      ctx.font = '11px system-ui';
+      const valStr = fmtDollar(v);
+      const valW = ctx.measureText(valStr).width;
+      const rightEdge = PAD.left + bw + 5 + valW;
+      if(rightEdge > W - 4) {
+        // draw inside bar, right-aligned
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'right';
+        ctx.fillText(valStr, PAD.left + bw - 5, y + BAR_H/2);
+      } else {
+        ctx.fillStyle = '#5a5955';
+        ctx.textAlign = 'left';
+        ctx.fillText(valStr, PAD.left + bw + 5, y + BAR_H/2);
+      }
+    });
+  }
+
+  function getIdx(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleY = canvas.height / rect.height / devicePixelRatio;
+    const cy = (e.clientY - rect.top) * scaleY;
+    const i = Math.floor((cy - PAD.top) / (BAR_H + GAP));
+    if(i >= 0 && i < labels.length) {
+      const y = PAD.top + i * (BAR_H + GAP);
+      if(cy >= y && cy <= y + BAR_H) return i;
+    }
+    return -1;
+  }
+
+  canvas.style.cursor = 'pointer';
+  canvas.addEventListener('mousemove', e => {
+    const i = getIdx(e);
+    if(i !== hoveredIdx) { hoveredIdx = i; draw(); }
+  });
+  canvas.addEventListener('mouseleave', () => { hoveredIdx = -1; draw(); });
+  canvas.addEventListener('click', e => {
+    const i = getIdx(e);
+    if(i >= 0) showDrill('exp', labels[i], DATA.exp_detail[labels[i]], true);
+  });
+
+  // Set canvas height
+  canvas.parentElement.style.height = H+'px';
+
+  draw();
+  window.addEventListener('resize', draw);
+})();
+
+// ── INCOME DONUT CHART ────────────────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('incChart');
+  const labels = Object.keys(DATA.inc_summary);
+  const values = Object.values(DATA.inc_summary);
+  const total = values.reduce((a,b)=>a+b,0);
+  const COLORS = ['#1a5fa8','#1a7a52','#b5750a'];
+  const CUTOUT = 0.58;
+
+  document.getElementById('incTotal').textContent =
+    'Total income since Jun 2023: ' + fmtDollar(Math.round(total)) + '. Click any segment for detail.';
+
+  let hoveredIdx = -1;
+  let startAngles = [];
+
+  function draw() {
+    const W = canvas.offsetWidth || 300;
+    const H = 200;
+    canvas.width = W * devicePixelRatio;
+    canvas.height = H * devicePixelRatio;
+    canvas.style.width = W+'px';
+    canvas.style.height = H+'px';
+    const ctx = canvas.getContext('2d');
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+
+    // Reserve bottom for legend
+    const legendH = 60;
+    const cx = W / 2;
+    const cy = (H - legendH) / 2;
+    const outerR = Math.min(cx, cy) - 6;
+    const innerR = outerR * CUTOUT;
+
+    startAngles = [];
+    let angle = -Math.PI / 2;
+
+    values.forEach((v, i) => {
+      const sweep = (v / total) * 2 * Math.PI;
+      startAngles.push({start: angle, sweep, cx, cy, outerR, innerR});
+
+      const expand = (i === hoveredIdx) ? 6 : 0;
+      const midA = angle + sweep / 2;
+      const ox = Math.cos(midA) * expand;
+      const oy = Math.sin(midA) * expand;
+
+      ctx.beginPath();
+      ctx.moveTo(cx + ox, cy + oy);
+      ctx.arc(cx + ox, cy + oy, outerR, angle, angle + sweep);
+      ctx.arc(cx + ox, cy + oy, innerR, angle + sweep, angle, true);
+      ctx.closePath();
+      ctx.fillStyle = COLORS[i];
+      ctx.fill();
+      if(i === hoveredIdx) {
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      angle += sweep;
+    });
+
+    // Legend
+    const legendY = H - legendH + 8;
+    const itemW = W / labels.length;
+    labels.forEach((lbl, i) => {
+      const lx = i * itemW + itemW/2;
+      const pct = Math.round(values[i]/total*100);
+
+      ctx.fillStyle = COLORS[i];
+      ctx.fillRect(lx - 5, legendY, 10, 10);
+
+      ctx.fillStyle = '#5a5955'; ctx.font = '11px system-ui';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.fillText(lbl, lx, legendY + 13);
+      ctx.fillText(pct+'%', lx, legendY + 26);
+    });
+  }
+
+  function getIdx(e) {
+    if(!startAngles.length) return -1;
+    // Use offsetX/offsetY — always relative to the canvas element,
+    // even inside iframes (avoids getBoundingClientRect frame-origin issues)
+    const mx = e.offsetX;
+    const my = e.offsetY;
+    const {cx, cy, outerR, innerR} = startAngles[0];
+    const dx = mx - cx, dy = my - cy;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if(dist < innerR || dist > outerR + 8) return -1;
+    let a = Math.atan2(dy, dx);
+    if(a < -Math.PI/2) a += 2*Math.PI;
+    for(let i=0; i<startAngles.length; i++) {
+      const {start, sweep} = startAngles[i];
+      if(a >= start && a < start + sweep) return i;
+    }
+    return -1;
+  }
+
+  canvas.style.cursor = 'pointer';
+  canvas.addEventListener('mousemove', e => {
+    const i = getIdx(e);
+    if(i !== hoveredIdx) { hoveredIdx = i; draw(); }
+  });
+  canvas.addEventListener('mouseleave', () => { hoveredIdx = -1; draw(); });
+  canvas.addEventListener('click', e => {
+    const i = getIdx(e);
+    if(i >= 0) showDrill('inc', labels[i], DATA.inc_detail[labels[i]], false);
+  });
+
+  draw();
+  window.addEventListener('resize', draw);
+})();
+
+}); // end window load
+
+// ── DRILL-DOWN (global scope — called from onclick attributes) ─────────────────
+function showDrill(type, title, rows, isExpense) {
+  const panel  = document.getElementById(type+'Drill');
+  const titleEl= document.getElementById(type+'DrillTitle');
+  const tbody  = document.getElementById(type+'DrillBody');
+
+  titleEl.textContent = title + ' — transaction detail';
+  tbody.innerHTML = '';
+
+  let total = 0;
+  const sorted = [...rows].sort((a,b)=>{
+    const [am,ad,ay]=a.date.split('/'); const [bm,bd,by]=b.date.split('/');
+    return new Date(by,bm-1,bd)-new Date(ay,am-1,ad);
+  });
+  sorted.forEach(r => {
+    const tr = document.createElement('tr');
+    const amt = r.amount;
+    total += amt;
+    tr.innerHTML =
+      '<td>'+r.date+'</td>'+
+      '<td>'+r.description+'</td>'+
+      '<td style="color:#9a9890">'+r.memo+'</td>'+
+      '<td>$'+amt.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})+'</td>';
+    tbody.appendChild(tr);
+  });
+
+  const tr = document.createElement('tr');
+  tr.className = 'drill-total';
+  tr.innerHTML =
+    '<td colspan="3"><strong>Total</strong></td>'+
+    '<td><strong>$'+total.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})+'</strong></td>';
+  tbody.appendChild(tr);
+
+  panel.classList.add('open');
+  panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function closeDrill(type) {
+  document.getElementById(type+'Drill').classList.remove('open');
+}
+</script>
+</body>
+</html>
